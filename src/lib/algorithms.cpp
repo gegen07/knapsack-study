@@ -51,7 +51,7 @@ ll back::solve(ks::knapsack sack) {
  */
 
 ll _brute_force(ks::knapsack sack, int i, int j) {
-    int v = 0;
+    ll v = 0;
     if (i>0) {
         if (j-sack.weights[i-1] >= 0) {
             v = std::max(_brute_force(sack, i-1, j), sack.values[i-1]+_brute_force(sack, i-1, j-sack.weights[i-1])); 

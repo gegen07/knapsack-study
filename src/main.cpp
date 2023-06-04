@@ -28,7 +28,7 @@ int main() {
     };
 
     for (ll(*f)(ks::knapsack sack): fn) {
-        cout << test(sack, dpbot::solve) << endl;
+        cout << test(sack, f) << endl;
     }
 
     return 0;
