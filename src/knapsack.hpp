@@ -4,15 +4,13 @@
 #include <bits/stdc++.h>
 #define ll long long
 
-using namespace ::std;
-
-struct knapsack {
-    ll N, cap;
-    vector<ll> weights;
-    vector<ll> values;
-    ll sol=0;
-};
-
-void test(knapsack sack, ll (*fn)(knapsack sack));
+namespace ks {
+    struct knapsack {
+        ll N, cap;
+        std::vector<ll> weights;
+        std::vector<ll> values;
+        ll sol=0;
+    };
+}
 
 #endif
