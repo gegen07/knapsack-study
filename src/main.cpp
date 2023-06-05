@@ -1,34 +1,73 @@
 #include <bits/stdc++.h>
+#include <fstream>
+#include <string>
 #include <vector>
 #include "./lib/knapsack.hpp"
 #include "./lib/algorithms.hpp"
 #define ll long long
 using namespace ::std;
 
-ll test(ks::knapsack sack, ll (*fn)(ks::knapsack sack)) {
-    return fn(sack);
+ll test(ks::knapsack sack, ll (*fn)(ks::knapsack sack, struct stats& op), struct stats& op) {
+    return fn(sack, op);
+}
+
+ks::knapsack read_input(std::string filename) {
+    std::ifstream file;
+    
+    file.open(filename);
+    
+    ks::knapsack sack;
+
+    ll x, y;
+    int num_lines=0;
+
+    if (file.is_open()) {
+        std::string line;       
+
+
+        while(file>>x>>y) {
+            if(num_lines==0) { sack.N = x; sack.cap = y; }
+            else {
+                sack.weights.push_back(x);
+                sack.values.push_back(y);
+            }
+            num_lines++;
+        }
+        file.close();
+    }
+
+    return sack;
 }
 
 int main() {
-    ks::knapsack sack;
-    cin >> sack.N >> sack.cap;
-
-    for (int i =0; i<sack.N; i++) {
-        int w, v;
-
-        cin >> w >> v;
-
-        sack.weights.push_back(w);
-        sack.values.push_back(v);
-    }
-
-    ll (*fn[6])(ks::knapsack sack) = {
+    ll (*fn[6])(ks::knapsack sack, struct stats& op) = {
         dpbot::solve, dptop::solve, back::solve,
         gdy::solve, brute::solve, esearch::solve
     };
 
-    for (ll(*f)(ks::knapsack sack): fn) {
-        cout << test(sack, f) << endl;
+    string methods[6] = {"bottom-up", "top-down", "backtracking", "greedy", "brute-force", "exhaustive-search"};
+
+    std::ofstream out("../analysis/data.csv");
+
+    out << "N,cap,sol_val,op,method" << std::endl;
+    
+    for (int i=2; i<=32; i+=2) {
+        for (int j=10; j<=100000; j*=10) {
+            ks::knapsack sack;
+
+            string filename = "../data/knapsack-" + to_string(i) + "/" + to_string(j) + ".txt";
+            cout << filename << endl;
+            sack = read_input(filename);
+
+            for (int k=0; k<6; k++) {
+                struct stats s;
+                s.op=0;
+                ll opt_value = test(sack, fn[k], s);
+                
+                out << sack.N << "," << sack.cap << "," << opt_value << "," << s.op << "," << methods[k] << std::endl;
+                cout << "Solution_value: " << opt_value << " op: " << s.op << endl;
+            }
+        }
     }
 
     return 0;
