@@ -12,12 +12,14 @@ def create_knapsack_instance():
                 os.mkdir(f'../data/knapsack-{n}')
 
             values = np.random.randint(1, 100, n)
-            capacity = np.random.randint(1, w, n)
+            weight = np.random.randint(1, w, n)
+
+            print(weight)
             
             with open(f'../data/knapsack-{n}/{w}.txt', 'w') as fp:
                 fp.write(f'{n} {w}\n')
                 for i in range(n):
-                    fp.write(f'{values[i]} {capacity[i]}\n')
+                    fp.write(f'{weight[i]} {values[i]}\n')
 
 if __name__ == "__main__":
     create_knapsack_instance()
