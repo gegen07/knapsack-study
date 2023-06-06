@@ -51,8 +51,8 @@ int main() {
 
     out << "N,cap,sol_val,op,method" << std::endl;
     
-    for (int i=2; i<=32; i+=2) {
-        for (int j=10; j<=100000; j*=10) {
+    for (int i=8; i<=32; i+=2) {
+        for (int j=8; j<=32; j+=2) {
             ks::knapsack sack;
 
             string filename = "../data/knapsack-" + to_string(i) + "/" + to_string(j) + ".txt";
